@@ -1,43 +1,625 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Família Card - Convênio de Assistência à Saúde | Ipatinga/MG</title>
+    <meta name="description" content="Economize em consultas, exames e procedimentos com o Família Card. Convênio de assistência à saúde sem carência, sem limite de uso e sem limite de idade.">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1e6db5;
+            --dark-blue: #155a9a;
+            --light-blue: #e8f4fc;
+            --accent-green: #7cb342;
+            --dark-green: #5a8a2a;
+            --white: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-600: #6c757d;
+            --gray-800: #343a40;
+            --gray-900: #20252a;
+            --whatsapp: #25d366;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Nunito', sans-serif; line-height: 1.6; color: var(--gray-800); overflow-x: hidden; background: #fff; }
+        h1,h2,h3,h4,h5,h6 { font-family: 'Poppins', sans-serif; font-weight: 700; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .text-center { text-align: center; }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 16px 32px; border-radius: 50px; font-weight: 700; font-size: 1.05rem;
+            text-decoration: none; transition: all .3s ease; border: none; cursor: pointer; font-family: 'Poppins', sans-serif;
+        }
+        .btn-primary { background: linear-gradient(135deg,var(--accent-green),var(--dark-green)); color:#fff; box-shadow:0 4px 15px rgba(124,179,66,.35); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow:0 8px 24px rgba(124,179,66,.45); }
+        .btn-whatsapp { background: linear-gradient(135deg,#25d366,#128c7e); color:#fff; box-shadow:0 4px 15px rgba(37,211,102,.35); }
+        .btn-whatsapp:hover { transform: translateY(-3px); box-shadow:0 8px 24px rgba(37,211,102,.45); }
+        .btn-outline { background: transparent; border: 2px solid rgba(255,255,255,.8); color:#fff; }
+        .btn-outline:hover { background:#fff; color:var(--primary-blue); }
+        .btn-large { padding: 18px 36px; font-size: 1.1rem; }
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+        header {
+            position: fixed; top:0; width:100%; background: rgba(255,255,255,.98); backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,.08); z-index:1000;
+        }
+        nav { display:flex; justify-content:space-between; align-items:center; padding:15px 0; gap: 16px; }
+        .logo { display:flex; align-items:center; gap:10px; min-width: 0; }
+        .logo img { height: 54px; width:auto; }
+        .logo-text { font-family:'Poppins',sans-serif; font-weight:800; font-size:1.45rem; color:var(--primary-blue); }
+        .nav-links { display:none; }
+        .nav-cta { display:flex; gap: 12px; align-items:center; }
+        .mobile-menu-btn { display:block; background:none; border:none; font-size:1.5rem; color:var(--primary-blue); cursor:pointer; }
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+        .hero {
+            margin-top:84px; background: linear-gradient(135deg,var(--primary-blue),var(--dark-blue)); position:relative; overflow:hidden;
+            min-height: 92vh; display:flex; align-items:center;
+        }
+        .hero::before {
+            content:''; position:absolute; top:-50%; right:-20%; width:80%; height:200%;
+            background: radial-gradient(circle, rgba(255,255,255,.10) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100% { transform:scale(1); opacity:.5; } 50% { transform:scale(1.08); opacity:.8; } }
+        .hero-content { position:relative; z-index:2; display:grid; grid-template-columns:1fr; gap:40px; align-items:center; }
+        .hero-text h1 { font-size:2.35rem; color:#fff; margin-bottom:18px; line-height:1.15; }
+        .hero-text h1 span { color:#ffd54f; }
+        .hero-subtitle { font-size:1.17rem; color:rgba(255,255,255,.94); margin-bottom:18px; max-width:620px; }
+        .hero-highlight { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18); border-radius: 16px; padding: 16px 18px; color: #fff; margin-bottom: 24px; }
+        .hero-highlight strong { color: #ffd54f; }
+        .hero-badges { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:34px; }
+        .badge {
+            background: rgba(255,255,255,.16); backdrop-filter: blur(10px); padding:10px 18px; border-radius:50px; color:#fff; font-weight:700;
+            display:flex; align-items:center; gap:8px; border:1px solid rgba(255,255,255,.25); font-size:.96rem;
+        }
+        .badge i { color:#ffd54f; }
+        .hero-buttons { display:flex; flex-direction:column; gap:14px; }
+        .hero-image { position:relative; border-radius:22px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.28); }
+        .hero-image img { width:100%; height:100%; object-fit:cover; min-height: 320px; }
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+        .trust-bar { background:#fff; padding:40px 0; box-shadow:0 5px 24px rgba(0,0,0,.06); position:relative; z-index:10; }
+        .trust-content { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:28px; text-align:center; }
+        .trust-item { padding:20px; }
+        .trust-item i { font-size:2.4rem; color:var(--primary-blue); margin-bottom:14px; }
+        .trust-item h3 { font-size:1.45rem; color:var(--primary-blue); margin-bottom:5px; }
+        .trust-item p { color:var(--gray-600); font-size:.96rem; }
+
+        section { padding: 84px 0; }
+        .section-header { text-align:center; max-width:760px; margin:0 auto 56px; }
+        .section-header h2 { font-size:2.15rem; color:var(--primary-blue); margin-bottom:12px; }
+        .section-header p { color:var(--gray-600); font-size:1.08rem; }
+
+        .how-it-works { background: var(--gray-100); }
+        .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:36px; }
+        .step {
+            text-align:center; padding:40px 28px; background:#fff; border-radius:20px; box-shadow:0 10px 32px rgba(0,0,0,.07);
+            transition:transform .3s ease; position:relative;
+        }
+        .step:hover { transform:translateY(-8px); }
+        .step-number {
+            position:absolute; top:-20px; left:50%; transform:translateX(-50%); width:50px; height:50px; background:var(--primary-blue);
+            color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.25rem;
+        }
+        .step-icon { font-size:3rem; color:var(--accent-green); margin: 8px 0 18px; }
+        .step h3 { color:var(--primary-blue); margin-bottom:10px; }
+
+        .plans { background: linear-gradient(to bottom, #fff 0%, var(--light-blue) 100%); }
+        .plans-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:30px; max-width:920px; margin:0 auto; }
+        .plan-card {
+            background:#fff; border-radius:24px; padding:40px 30px; box-shadow:0 10px 36px rgba(0,0,0,.09); position:relative;
+            transition:transform .3s ease; border:2px solid transparent;
+        }
+        .plan-card:hover { transform:translateY(-5px); }
+        .plan-card.featured { border-color:var(--accent-green); transform:scale(1.04); }
+        .plan-card.featured:hover { transform:scale(1.04) translateY(-5px); }
+        .featured-badge {
+            position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,var(--accent-green),var(--dark-green));
+            color:#fff; padding:8px 24px; border-radius:50px; font-weight:700; font-size:.9rem; box-shadow:0 4px 15px rgba(124,179,66,.35);
+        }
+        .plan-header { text-align:center; margin-bottom:28px; padding-bottom:28px; border-bottom:2px solid var(--gray-200); }
+        .plan-icon { font-size:3rem; margin-bottom:12px; }
+        .plan-card.featured .plan-icon { color: var(--accent-green); }
+        .plan-card:not(.featured) .plan-icon { color:#cd7f32; }
+        .plan-header h3 { font-size:1.5rem; color:var(--primary-blue); margin-bottom:10px; }
+        .plan-price { font-size:3rem; font-weight:800; color:var(--primary-blue); line-height:1; }
+        .plan-price span { font-size:1rem; font-weight:600; color:var(--gray-600); display:block; margin-top:5px; }
+        .plan-features { list-style:none; margin-bottom:28px; }
+        .plan-features li { padding:12px 0; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--gray-200); }
+        .plan-features li:last-child { border-bottom:none; }
+        .plan-features i { color:var(--accent-green); }
+        .economy-box {
+            margin-top: 40px; padding: 30px; background: #fff; border-radius: 18px; max-width: 900px; margin-left:auto; margin-right:auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,.06); border: 1px solid #d9edf9;
+        }
+        .economy-box h3 { color:var(--primary-blue); margin-bottom:12px; font-size:1.35rem; }
+        .economy-box p { color: var(--gray-700); }
+        .economy-highlight { color: var(--dark-green); font-weight:800; }
+
+        .benefits-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+        .benefit-card {
+            background: var(--gray-100); padding:30px; border-radius:16px; display:flex; align-items:flex-start; gap:18px; transition:all .3s ease;
+            border-left:4px solid var(--primary-blue);
+        }
+        .benefit-card:hover { background: var(--light-blue); transform: translateX(5px); }
+        .benefit-icon {
+            width:50px; height:50px; background:var(--primary-blue); color:#fff; border-radius:12px; display:flex; align-items:center; justify-content:center;
+            font-size:1.25rem; flex-shrink:0;
+        }
+        .benefit-content h4 { color:var(--primary-blue); margin-bottom:5px; font-size:1.08rem; }
+        .benefit-content p { color:var(--gray-600); font-size:.95rem; }
+
+        .photo-strip { padding-top: 10px; }
+        .photo-strip-grid { display:grid; grid-template-columns:1fr; gap:20px; }
+        .photo-card { border-radius:20px; overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,.08); background:#fff; }
+        .photo-card img { width:100%; height:100%; object-fit:cover; }
+
+        .specialties { background: linear-gradient(135deg,var(--primary-blue),var(--dark-blue)); color:#fff; }
+        .specialties .section-header h2, .specialties .section-header p { color:#fff; }
+        .specialties-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:18px; }
+        .specialty-item {
+            background: rgba(255,255,255,.1); backdrop-filter: blur(10px); padding:20px; border-radius:12px; text-align:center; border:1px solid rgba(255,255,255,.18);
+            transition:all .3s ease;
+        }
+        .specialty-item:hover { background:rgba(255,255,255,.18); transform:translateY(-5px); }
+        .specialty-item i { font-size:1.45rem; margin-bottom:10px; color:#ffd54f; }
+        .specialty-item span { display:block; font-weight:600; }
+
+        .audience { background: var(--gray-100); }
+        .audience-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:28px; }
+        .audience-card {
+            background:#fff; padding:38px 28px; border-radius:20px; text-align:center; box-shadow:0 10px 34px rgba(0,0,0,.07); transition: transform .3s ease;
+        }
+        .audience-card:hover { transform: translateY(-8px); }
+        .audience-icon {
+            width:80px; height:80px; background:linear-gradient(135deg,var(--light-blue),#fff); border-radius:50%; display:flex; align-items:center; justify-content:center;
+            margin:0 auto 18px; font-size:2rem; color:var(--primary-blue); border:3px solid var(--primary-blue);
+        }
+        .audience-card h4 { color:var(--primary-blue); margin-bottom:10px; }
+
+        .faq { background:#fff; }
+        .faq-grid { max-width: 900px; margin: 0 auto; display:grid; gap:16px; }
+        .faq-item { background: var(--gray-100); border-radius: 16px; padding: 22px 24px; }
+        .faq-item h4 { color: var(--primary-blue); margin-bottom: 8px; font-size: 1.05rem; }
+        .faq-item p { color: var(--gray-600); }
+
+        .cta-section {
+            background: linear-gradient(135deg,var(--accent-green),var(--dark-green)); color:#fff; text-align:center; padding:96px 0; position:relative; overflow:hidden;
+        }
+        .cta-section::before {
+            content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='0.5'/%3E%3C/svg%3E");
+            background-size:50px 50px; opacity:.3;
+        }
+        .cta-content { position:relative; z-index:2; }
+        .cta-section h2 { font-size:2.35rem; margin-bottom:18px; }
+        .cta-section p { font-size:1.15rem; margin-bottom:36px; opacity:.96; }
+        .contact-info { display:flex; flex-wrap:wrap; justify-content:center; gap:28px; margin-top:36px; }
+        .contact-item { display:flex; align-items:center; gap:10px; font-size:1.15rem; }
+        .contact-item i { font-size:1.35rem; }
+
+        .location-content { display:grid; grid-template-columns:1fr; gap:40px; align-items:center; }
+        .location-info h3 { color:var(--primary-blue); margin-bottom:20px; font-size:1.8rem; }
+        .location-details { display:flex; flex-direction:column; gap:20px; }
+        .location-item { display:flex; align-items:flex-start; gap:15px; }
+        .location-item i { color:var(--accent-green); font-size:1.3rem; margin-top:3px; }
+        .location-map { border-radius:20px; overflow:hidden; min-height:320px; box-shadow:0 10px 30px rgba(0,0,0,.08); }
+        .location-map iframe { width:100%; height:320px; border:0; display:block; }
+
+        footer { background: var(--gray-900); color:#fff; padding:60px 0 30px; }
+        .footer-content { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:38px; margin-bottom:36px; }
+        .footer-section h4 { color:#fff; margin-bottom:18px; font-size:1.15rem; }
+        .footer-section p, .footer-section a { color: rgba(255,255,255,.82); text-decoration:none; line-height:1.8; }
+        .footer-section a:hover { color: var(--accent-green); }
+        .social-links { display:flex; gap:14px; margin-top:18px; }
+        .social-links a {
+            width:40px; height:40px; background: rgba(255,255,255,.1); border-radius:50%; display:flex; align-items:center; justify-content:center; transition:all .3s ease;
+        }
+        .social-links a:hover { background: var(--accent-green); transform: translateY(-3px); }
+        .footer-bottom { border-top:1px solid rgba(255,255,255,.1); padding-top:28px; text-align:center; }
+        .disclaimer { background: rgba(0,0,0,.24); padding:20px; border-radius:10px; margin-bottom:18px; font-size:.9rem; color:rgba(255,255,255,.74); }
+
+        .floating-whatsapp {
+            position:fixed; bottom:26px; right:26px; width:60px; height:60px; background:var(--whatsapp); color:#fff; border-radius:50%; display:flex;
+            align-items:center; justify-content:center; font-size:2rem; box-shadow:0 4px 20px rgba(37,211,102,.4); z-index:999; animation: float 3s ease-in-out infinite; text-decoration:none;
+            transition: transform .3s ease;
+        }
+        .floating-whatsapp:hover { transform: scale(1.08); }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+        .fade-in { opacity:0; transform: translateY(30px); transition: all .6s ease; }
+        .fade-in.visible { opacity:1; transform:translateY(0); }
+
+        @media (min-width: 768px) {
+            .hero-content { grid-template-columns: 1.05fr .95fr; }
+            .hero-text h1 { font-size: 3.5rem; }
+            .hero-buttons { flex-direction: row; }
+            .location-content { grid-template-columns: 1fr 1fr; }
+            .nav-links { display:flex; gap:28px; list-style:none; }
+            .nav-links a { text-decoration:none; color:var(--gray-800); font-weight:700; transition: color .3s ease; }
+            .nav-links a:hover { color:var(--primary-blue); }
+            .mobile-menu-btn { display:none; }
+            .photo-strip-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 767px) {
+            .logo-text { font-size: 1.2rem; }
+            .plan-card.featured { transform:none; }
+            .plan-card.featured:hover { transform:translateY(-5px); }
+            .hero-text h1 { font-size: 2rem; }
+            .section-header h2 { font-size: 1.8rem; }
+            .cta-section h2 { font-size: 1.9rem; }
+            .btn { width: 100%; }
+            .nav-cta .btn-whatsapp { padding: 12px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="/logo_FC.jpg" alt="Família Card">
+                    <span class="logo-text">Família Card</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#como-funciona">Como Funciona</a></li>
+                    <li><a href="#planos">Planos</a></li>
+                    <li><a href="#beneficios">Benefícios</a></li>
+                    <li><a href="#especialidades">Especialidades</a></li>
+                    <li><a href="#faq">Dúvidas</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+                <div class="nav-cta">
+                    <a href="https://wa.me/5531985275276?text=Olá! Quero saber mais sobre o Família Card." class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp
+                    </a>
+                    <button class="mobile-menu-btn" aria-label="Menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text fade-in">
+                    <h1>Economize em <span>consultas e exames</span> com um convênio de assistência à saúde para toda a sua família.</h1>
+                    <p class="hero-subtitle">Tenha acesso a descontos em consultas, exames e procedimentos, com atendimento regional, contratação simples e uso imediato.</p>
+                    <div class="hero-highlight">
+                        <strong>Desde 2013</strong> cuidando da saúde da população com mais praticidade, economia e acesso facilitado.
+                    </div>
+                    <div class="hero-badges">
+                        <div class="badge"><i class="fas fa-check-circle"></i>Sem carência</div>
+                        <div class="badge"><i class="fas fa-infinity"></i>Sem limite de uso</div>
+                        <div class="badge"><i class="fas fa-users"></i>Sem limite de idade</div>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="https://wa.me/5531985275276?text=Olá! Quero aderir ao Família Card." class="btn btn-primary btn-large" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-id-card"></i>
+                            Quero aderir agora
+                        </a>
+                        <a href="https://wa.me/5531985275276?text=Olá! Quero falar com um atendente sobre o Família Card." class="btn btn-outline btn-large" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i>
+                            Falar com atendente
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image fade-in">
+                    <img src="/familia.jpg" alt="Família sorrindo e aproveitando os benefícios do Família Card">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="trust-bar">
+        <div class="container">
+            <div class="trust-content fade-in">
+                <div class="trust-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Desde 2013</h3>
+                    <p>Mais de 10 anos de atuação e confiança na região</p>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Ipatinga/MG</h3>
+                    <p>Atendimento consolidado no Vale do Aço</p>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-heart"></i>
+                    <h3>Uso imediato</h3>
+                    <p>Contratou, começou a aproveitar os benefícios</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="como-funciona" class="how-it-works">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Como funciona</h2>
+                <p>Um jeito simples de cuidar da saúde da sua família com mais economia e praticidade.</p>
+            </div>
+            <div class="steps">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <div class="step-icon"><i class="fas fa-mouse-pointer"></i></div>
+                    <h3>Escolha seu plano</h3>
+                    <p>Compare as opções e veja qual faz mais sentido para a sua casa e sua rotina.</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">2</div>
+                    <div class="step-icon"><i class="fas fa-file-signature"></i></div>
+                    <h3>Faça sua adesão</h3>
+                    <p>Fale com nossa equipe pelo WhatsApp e receba atendimento rápido para concluir sua contratação.</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">3</div>
+                    <div class="step-icon"><i class="fas fa-heartbeat"></i></div>
+                    <h3>Comece a usar</h3>
+                    <p>Sem carência. Você pode começar a aproveitar os descontos e benefícios logo após a adesão.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="planos" class="plans">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Escolha o plano ideal</h2>
+                <p>Pagamento anual em parcela única, com acesso a descontos exclusivos para cuidar da saúde com mais tranquilidade.</p>
+            </div>
+            <div class="plans-grid">
+                <div class="plan-card fade-in">
+                    <div class="plan-header">
+                        <div class="plan-icon"><i class="fas fa-medal"></i></div>
+                        <h3>Plano Bronze</h3>
+                        <div class="plan-price">R$ 209,90<span>por ano</span></div>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i><span>Titular + 1 dependente</span></li>
+                        <li><i class="fas fa-check"></i><span>Atendimento com diversas especialidades</span></li>
+                        <li><i class="fas fa-check"></i><span>Descontos em exames e serviços</span></li>
+                        <li><i class="fas fa-check"></i><span>Sem carência</span></li>
+                        <li><i class="fas fa-check"></i><span>Validade de 12 meses</span></li>
+                    </ul>
+                    <a href="https://wa.me/5531985275276?text=Olá! Tenho interesse no Plano Bronze do Família Card." class="btn btn-primary" style="width:100%;" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i>
+                        Falar com atendente agora
+                    </a>
+                </div>
+                <div class="plan-card featured fade-in">
+                    <div class="featured-badge">MAIS ESCOLHIDO</div>
+                    <div class="plan-header">
+                        <div class="plan-icon"><i class="fas fa-gem"></i></div>
+                        <h3>Plano Diamante</h3>
+                        <div class="plan-price">R$ 345,90<span>por ano</span></div>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i><span><strong>Titular + até 7 dependentes</strong></span></li>
+                        <li><i class="fas fa-check"></i><span>Melhor custo-benefício para a família</span></li>
+                        <li><i class="fas fa-check"></i><span>Descontos em especialidades, exames e procedimentos</span></li>
+                        <li><i class="fas fa-check"></i><span>Sem carência e sem limite de uso</span></li>
+                        <li><i class="fas fa-check"></i><span>Validade de 12 meses</span></li>
+                    </ul>
+                    <a href="https://wa.me/5531985275276?text=Olá! Tenho interesse no Plano Diamante do Família Card." class="btn btn-primary" style="width:100%;" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i>
+                        Falar com atendente agora
+                    </a>
+                </div>
+            </div>
+            <div class="economy-box fade-in">
+                <h3><i class="fas fa-lightbulb" style="color: var(--accent-green); margin-right: 8px;"></i>Mais economia no dia a dia</h3>
+                <p>O Família Card foi pensado para quem quer <span class="economy-highlight">gastar menos</span> em consultas, exames e procedimentos, sem abrir mão de atendimento e praticidade.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="beneficios" class="benefits">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>O que você encontra no Família Card</h2>
+                <p>Uma rede de serviços pensada para atender diferentes fases da vida com economia e conveniência.</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in"><div class="benefit-icon"><i class="fas fa-stethoscope"></i></div><div class="benefit-content"><h4>Consultas médicas</h4><p>Atendimento com diversas especialidades médicas e profissionais parceiros.</p></div></div>
+                <div class="benefit-card fade-in"><div class="benefit-icon"><i class="fas fa-flask"></i></div><div class="benefit-content"><h4>Exames laboratoriais</h4><p>Check-up e exames de rotina com valores reduzidos.</p></div></div>
+                <div class="benefit-card fade-in"><div class="benefit-icon"><i class="fas fa-x-ray"></i></div><div class="benefit-content"><h4>Exames de imagem</h4><p>Ultrassom, raio-X, mamografia e outros exames importantes.</p></div></div>
+                <div class="benefit-card fade-in"><div class="benefit-icon"><i class="fas fa-heartbeat"></i></div><div class="benefit-content"><h4>Exames cardiológicos</h4><p>ECG, EEG, Holter, MAPA e ecocardiograma com descontos.</p></div></div>
+                <div class="benefit-card fade-in"><div class="benefit-icon"><i class="fas fa-eye"></i></div><div class="benefit-content"><h4>Exames oftalmológicos</h4><p>Cuidados com a saúde ocular com mais acessibilidade.</p></div></div>
+                <div class="benefit-card fade-in"><div class="benefit-icon"><i class="fas fa-tooth"></i></div><div class="benefit-content"><h4>Odontologia</h4><p>Descontos em atendimentos odontológicos para toda a família.</p></div></div>
+                <div class="benefit-card fade-in"><div class="benefit-icon"><i class="fas fa-lungs"></i></div><div class="benefit-content"><h4>Espirometria</h4><p>Avaliação da função pulmonar com valor diferenciado.</p></div></div>
+                <div class="benefit-card fade-in"><div class="benefit-icon"><i class="fas fa-bed"></i></div><div class="benefit-content"><h4>Polissonografia</h4><p>Exames do sono, inclusive para casa, com mais praticidade.</p></div></div>
+                <div class="benefit-card fade-in"><div class="benefit-icon"><i class="fas fa-allergies"></i></div><div class="benefit-content"><h4>Testes alérgicos</h4><p>Mais apoio no diagnóstico e acompanhamento de alergias.</p></div></div>
+                <div class="benefit-card fade-in"><div class="benefit-icon"><i class="fas fa-procedures"></i></div><div class="benefit-content"><h4>Pequenos procedimentos</h4><p>Biópsias, lavagem de ouvidos e outros procedimentos com desconto.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="photo-strip">
+        <div class="container">
+            <div class="photo-strip-grid fade-in">
+                <div class="photo-card"><img src="/exames_consultas%20.jpeg" alt="Médico representando os descontos em consultas e exames do Família Card"></div>
+                <div class="photo-card"><img src="/familia_vantagens.jpg" alt="Família reunida representando saúde, vantagens, descontos e benefícios"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="especialidades" class="specialties">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Especialidades disponíveis</h2>
+                <p>Atendimento em especialidades estratégicas para crianças, adultos, idosos, saúde mental, exames e acompanhamento da saúde em diferentes fases da vida.</p>
+            </div>
+            <div class="specialties-grid">
+                <div class="specialty-item fade-in"><i class="fas fa-user-md"></i><span>Clínica Geral</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-heart"></i><span>Cardiologia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-baby"></i><span>Pediatria</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-child"></i><span>Psiquiatria da infância e adolescência</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-head-side-virus"></i><span>Psiquiatria</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-brain"></i><span>Saúde Mental</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-brain"></i><span>NeuroPediatria</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-bone"></i><span>Ortopedia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-female"></i><span>Ginecologia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-eye"></i><span>Oftalmologia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-shield-virus"></i><span>Alergia e Imunologia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-apple-alt"></i><span>Nutrologia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-user-clock"></i><span>Geriatria</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-x-ray"></i><span>Radiologia e Diagnóstico por Imagem</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-hand-holding-medical"></i><span>Dermatologia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-brain"></i><span>Neurologia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-ear-listen"></i><span>Otorrinolaringologia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-male"></i><span>Urologia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-comments"></i><span>Psicologia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-apple-alt"></i><span>Nutrição</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-notes-medical"></i><span>Endocrinologia</span></div>
+                <div class="specialty-item fade-in"><i class="fas fa-disease"></i><span>Gastroenterologia</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="audience">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Para quem é o Família Card?</h2>
+                <p>Ideal para quem quer atendimento mais acessível, mais previsibilidade nos gastos e mais facilidade para cuidar da saúde.</p>
+            </div>
+            <div class="audience-grid">
+                <div class="audience-card fade-in"><div class="audience-icon"><i class="fas fa-home"></i></div><h4>Famílias</h4><p>Ideal para quem deseja cuidar de filhos, cônjuge, pais e dependentes com mais economia.</p></div>
+                <div class="audience-card fade-in"><div class="audience-icon"><i class="fas fa-building"></i></div><h4>Empresas</h4><p>Também oferecemos convênio para empresas que desejam ampliar benefícios, cuidado e acesso à saúde para colaboradores.</p></div>
+                <div class="audience-card fade-in"><div class="audience-icon"><i class="fas fa-user-shield"></i></div><h4>Quem busca acesso facilitado</h4><p>Uma opção prática para quem quer consultar, examinar e acompanhar a saúde pagando menos.</p></div>
+                <div class="audience-card fade-in"><div class="audience-icon"><i class="fas fa-user-clock"></i></div><h4>Todas as idades</h4><p>Sem limite de idade. Uma alternativa acessível para crianças, adultos e idosos.</p></div>
+                <div class="audience-card fade-in"><div class="audience-icon"><i class="fas fa-piggy-bank"></i></div><h4>Mais economia</h4><p>Para quem quer reduzir os gastos com saúde sem abrir mão de atendimento.</p></div>
+                <div class="audience-card fade-in"><div class="audience-icon"><i class="fas fa-hospital-user"></i></div><h4>Uso frequente</h4><p>Sem limite de uso, ideal para quem precisa utilizar consultas e exames de forma recorrente.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Dúvidas frequentes</h2>
+                <p>Informações rápidas para ajudar você a decidir com mais segurança.</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item fade-in"><h4>O Família Card é plano de saúde?</h4><p>Não. O Família Card é um convênio de assistência à saúde com acesso a serviços mediante valores diferenciados.</p></div>
+                <div class="faq-item fade-in"><h4>Tem carência para começar a usar?</h4><p>Não. Após a adesão, você já pode aproveitar os benefícios disponíveis.</p></div>
+                <div class="faq-item fade-in"><h4>Existe limite de idade para aderir?</h4><p>Não. O convênio atende todas as idades.</p></div>
+                <div class="faq-item fade-in"><h4>Posso usar quantas vezes precisar?</h4><p>Sim. Não há limite de uso dentro das regras de utilização do convênio.</p></div>
+                <div class="faq-item fade-in"><h4>O Família Card também atende empresas?</h4><p>Sim. Também oferecemos convênio para empresas que buscam benefícios em saúde com mais economia e praticidade para seus colaboradores.</p></div>
+                <div class="faq-item fade-in"><h4>O Família Card inclui internação hospitalar ou atendimento de urgência e emergência?</h4><p>Não. O Família Card não inclui serviços de internação hospitalar, nem atendimento de urgência ou emergência. Trata-se de um convênio de assistência à saúde com acesso a consultas, exames e serviços mediante valores diferenciados.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato" class="cta-section">
+        <div class="container">
+            <div class="cta-content fade-in">
+                <h2>Venha nos conhecer e faça já o seu</h2>
+                <p>Nossa equipe está pronta para explicar os planos, orientar sua adesão e ajudar você a contratar pelo WhatsApp.</p>
+                <a href="https://wa.me/5531985275276?text=Olá! Quero contratar o Família Card agora." class="btn btn-large" style="background:#fff; color:var(--accent-green);" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-whatsapp"></i>
+                    Quero contratar agora
+                </a>
+                <div class="contact-info">
+                    <div class="contact-item"><i class="fas fa-phone"></i><span>(31) 3825-4635</span></div>
+                    <div class="contact-item"><i class="fab fa-whatsapp"></i><span>(31) 98527-5276</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="location">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Onde estamos</h2>
+                <p>Atendimento presencial em Ipatinga, com fácil acesso e suporte pelo WhatsApp.</p>
+            </div>
+            <div class="location-content fade-in">
+                <div class="location-info">
+                    <h3>Família Card - Convênio de Assistência à Saúde</h3>
+                    <div class="location-details">
+                        <div class="location-item"><i class="fas fa-map-marker-alt"></i><div><strong>Endereço:</strong><br>Rua Mariana, 70 - Centro<br>Ipatinga/MG - CEP: 35160-018</div></div>
+                        <div class="location-item"><i class="fas fa-clock"></i><div><strong>Horário de funcionamento:</strong><br>Segunda a sexta: 08:00 às 18:00<br>Sábados: 08:00 às 12:00<br>Domingo: fechado</div></div>
+                        <div class="location-item"><i class="fas fa-envelope"></i><div><strong>E-mail:</strong><br>familiacard@outlook.com</div></div>
+                    </div>
+                </div>
+                <div class="location-map">
+                    <iframe
+                        src="https://www.google.com/maps?q=Rua%20Mariana%2C%2070%20Centro%20Ipatinga%20MG&output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Mapa Família Card">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Família Card</h4>
+                    <p>Convênio de assistência à saúde com acesso facilitado a consultas, exames e serviços com valores reduzidos.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/Familiacard" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/familiacard" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/5531985275276?text=Olá! Quero saber mais sobre o Família Card." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Links rápidos</h4>
+                    <p><a href="#como-funciona">Como funciona</a></p>
+                    <p><a href="#planos">Planos</a></p>
+                    <p><a href="#beneficios">Benefícios</a></p>
+                    <p><a href="#especialidades">Especialidades</a></p>
+                    <p><a href="#faq">Dúvidas frequentes</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <p><i class="fas fa-phone" style="margin-right:8px;"></i>(31) 3825-4635</p>
+                    <p><i class="fab fa-whatsapp" style="margin-right:8px;"></i>(31) 98527-5276</p>
+                    <p><i class="fas fa-envelope" style="margin-right:8px;"></i>familiacard@outlook.com</p>
+                    <p><i class="fas fa-map-marker-alt" style="margin-right:8px;"></i>Rua Mariana, 70 - Centro<br>Ipatinga/MG</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="disclaimer">
+                    <i class="fas fa-info-circle" style="margin-right:8px;"></i>
+                    <strong>Aviso importante:</strong> O Família Card não se caracteriza como plano de saúde. Trata-se de um convênio de assistência à saúde com acesso a serviços mediante valores diferenciados. Não inclui serviços de internação hospitalar, nem atendimento de urgência ou emergência. Benefícios, profissionais e valores podem sofrer alterações.
+                </div>
+                <p>&copy; 2026 Família Card. Todos os direitos reservados.</p>
+                <p style="margin-top:10px; font-size:0.9rem; opacity:0.85;">
+                    Desenvolvido por <a href="https://globaldomainventures.com" target="_blank" rel="noopener noreferrer" style="color:#7cb342; text-decoration:none; font-weight:700;">Global Domain Ventures</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5531985275276?text=Olá! Quero saber mais sobre o Família Card." class="floating-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
 </html>
